@@ -366,7 +366,7 @@ ${f.includeExplanations ? "- Include short explanation per answer, focused on th
 Output Format:
 First the text with numbered gaps.
 Then list the options like this:
-${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} A ___   B ___   C ___`).join("\n")}`,
+${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} A. ___   B. ___   C. ___`).join("\n")}`,
       },
       "3": {
         title: "Type 3: Dialogues",
