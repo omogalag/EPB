@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="https://raw.githubusercontent.com/omogalag/OTTO/main/favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exam Prompt Builder</title>
+  <style>
+  
+  /* Color verde el checkbox */
+  
+  .switch input[type="checkbox"] {
+  accent-color: #408A71;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+      
+  /* footer */
+  .footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  font-size: 14px;
+  color: #408A71;
+}
+  
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .header, .panel {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .header {
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+	  color: #408A71; 
+    }
+    .header p {
+      margin: 0;
+      color: #6b7280;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .panel {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+	  color: #408A71;
+	  opacity: 0.9;
+}
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid #d1d5db;
+      padding: 12px 14px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    textarea { resize: vertical; }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .exam-types {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .exam-btn {
+      text-align: left;
+      background: white;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .exam-btn.active {
+      background: #408A71;
+      color: white;
+      border-color: #408A71;
+    }
+    .exam-btn:hover { border-color: #6b7280; }
+    .switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      margin-bottom: 12px;
+    }
+    .switch input {
+      width: auto;
+      transform: scale(1.2);
+    }
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      width: auto;
+      background: #408A71;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 10px 16px;
+      font-weight: 700;
+    }
+    .btn.secondary {
+      background: #408A71;
+    }
+    #output {
+      min-height: 780px;
+      background: #f9fafb;
+      font-family: "Courier New", monospace;
+      line-height: 1.55;
+    }
+    .hidden { display: none; }
+    .hint {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 6px;
+    }
+    @media (max-width: 900px) {
+      .grid, .row, .row-3, .exam-types { grid-template-columns: 1fr; }
+      .output-header { flex-direction: column; align-items: stretch; }
+      .actions { width: 100%; }
+      .actions .btn { flex: 1; }
+      #output { min-height: 500px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1><img src="https://raw.githubusercontent.com/omogalag/OTTO/main/favicon.ico" width="40"> Exam Prompt Builder</h1>
+      <p>Ready-to-use prompt creator for generating English test items aligned with standardized assessments and Saber Tests. </p>
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="panel">
+          <h2>1. Select exam type</h2>
+          <div class="exam-types">
+            <button class="exam-btn active" data-type="1">Type 1: Matching Notices</button>
+            <button class="exam-btn" data-type="2">Type 2: Cloze Reading</button>
+            <button class="exam-btn" data-type="3">Type 3: Dialogues</button>
+            <button class="exam-btn" data-type="4">Type 4: Reading Comprehension</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>2. Configure your prompt</h2>
+
+          <label for="topic">Topic / Context</label>
+          <input id="topic" placeholder="e.g. school life, animals, shopping" />
+
+          <div class="row" style="margin-top:16px;">
+            <div>
+              <label for="level">Level</label>
+              <select id="level">
+                <option>A1</option>
+                <option>A2</option>
+                <option>B1</option>
+              </select>
+            </div>
+            <div>
+              <label for="startNumber">Start number</label>
+              <input id="startNumber" type="number" min="1" value="1" />
+            </div>
+          </div>
+
+          <div class="row-3" style="margin-top:16px;">
+            <div>
+              <label for="numQuestions">Number of questions</label>
+              <input id="numQuestions" type="number" min="1" value="5" />
+            </div>
+            <div id="numNoticesWrap">
+              <label for="numNotices">Number of notices</label>
+              <input id="numNotices" type="number" min="3" max="12" value="8" />
+            </div>
+            <div id="wordCountWrap" class="hidden">
+              <label for="wordCount">Approximate word count</label>
+              <input id="wordCount" type="number" min="60" value="140" />
+            </div>
+          </div>
+
+          <div id="grammarWrap" class="hidden" style="margin-top:16px;">
+            <label for="grammar">Grammar focus</label>
+            <input id="grammar" placeholder="e.g. present simple, prepositions, past simple" />
+          </div>
+
+          <div id="functionsWrap" class="hidden" style="margin-top:16px;">
+            <label for="functions">Functions focus</label>
+            <input id="functions" placeholder="e.g. offering help, apologizing, making suggestions" />
+          </div>
+
+          <div style="margin-top:16px;">
+            <label for="vocabulary">Vocabulary focus</label>
+            <textarea id="vocabulary" rows="4" placeholder="Write a word list or semantic field"></textarea>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>3. Extra options</h2>
+          <div class="switch">
+            <span>Include answer key</span>
+            <input id="includeAnswerKey" type="checkbox" checked />
+          </div>
+          <div class="switch">
+            <span>Include explanations</span>
+            <input id="includeExplanations" type="checkbox" />
+          </div>
+          <div class="actions" style="margin-top: 16px;">
+            <button class="btn secondary" id="resetBtn">Reset</button>
+            <button class="btn" id="generateBtn">Generate prompt</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="panel">
+          <div class="output-header">
+            <div>
+              <h2 style="margin-bottom:4px;">Generated prompt</h2>
+              <div class="hint">Copy and paste this into an AI application.</div>
+            </div>
+            <div class="actions">
+              <button class="btn" id="copyBtn">Copy prompt</button>
+            </div>
+          </div>
+          <textarea id="output" readonly></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const examTypes = {
+      "1": {
+        title: "Type 1: Matching Notices",
+        defaultQuestions: 5,
+        defaultWordCount: 140,
+        build: (f) => `Create a matching notices reading exercise similar to a Cambridge A1–A2 exam (Part 1 style).
+
+Specifications:
+- Topic / Context: ${f.topic || "[WRITE CONTEXT HERE]"}
+- Level (CEFR): ${f.level}
+- Vocabulary focus (optional): ${f.vocabulary || "[WRITE WORD LIST OR FIELD]"}
+- Number of questions: ${f.numQuestions} statements (${f.startNumber}-${f.startNumber + f.numQuestions - 1})
+- Number of notices: ${f.numNotices} (${f.noticeRange})
+
+Exercise Structure:
+1. Instructions
+- Write clear exam-style instructions in English.
+- Example: Which notice (${f.noticeRange}) says this (${f.startNumber}-${f.startNumber + f.numQuestions - 1})? For questions ${f.startNumber}-${f.startNumber + f.numQuestions - 1}, mark the correct letter ${f.noticeRange}.
+
+2. Statements
+- Write ${f.numQuestions} short statements.
+- Each statement should express meaning or situation, not repeat the notice.
+- Use paraphrasing.
+
+3. Notices
+- Provide ${f.numNotices} short realistic notices/signs.
+- Only ${f.numQuestions} should be used. The others must be distractors.
+- Use realistic formats: signs, advertisements, public notices, rules.
+
+Quality Control Requirements:
+- Ensure NO ambiguity: only one correct match per statement.
+- Use clear paraphrasing, not identical wording.
+- Distractors must be plausible but clearly incorrect.
+- Avoid vocabulary overlap that makes answers obvious.
+- Maintain real-world authenticity.
+- Match CEFR level strictly.
+${f.includeAnswerKey ? "- Include answer key." : ""}
+${f.includeExplanations ? "- Include short explanation for each answer." : ""}
+
+Output Format:
+Statements:
+${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} ___`).join("\n")}
+
+Notices:
+${Array.from({ length: f.numNotices }, (_, i) => `${String.fromCharCode(65 + i)} ___`).join("\n")}`,
+      },
+      "2": {
+        title: "Type 2: Cloze Reading",
+        defaultQuestions: 8,
+        defaultWordCount: 140,
+        build: (f) => `Create a multiple-choice cloze reading exercise similar to a Cambridge A1–A2 exam.
+
+Specifications:
+- Topic: ${f.topic || "[WRITE TOPIC HERE]"}
+- Level (CEFR): ${f.level}
+- Grammar focus: ${f.grammar || "[e.g., articles, prepositions, present simple]"}
+- Vocabulary focus (optional): ${f.vocabulary || "[WRITE WORD LIST OR FIELD]"}
+- Number of questions: ${f.numQuestions} (${f.startNumber}-${f.startNumber + f.numQuestions - 1})
+
+Exercise Structure:
+1. Instructions
+- Include clear exam-style instructions in English.
+
+2. Text
+- Write a short informative text of ${f.wordCount} words.
+- Include exactly ${f.numQuestions} gaps.
+- Use natural, contextualized language.
+- Ensure the text is coherent and realistic.
+- Keep a moderate level of difficulty, not too basic.
+
+3. Multiple Choice Options
+- Provide 3 options (A, B, C) for each gap.
+- Only ONE correct answer per question.
+- Distractors must be grammatically and contextually plausible.
+
+Quality Control Requirements:
+- Ensure there is NO ambiguity: only one clearly correct answer.
+- Avoid tricks or misleading questions.
+- Distribute correct answers evenly; do not overuse A, B, or C.
+- Target common learner mistakes.
+- Ensure each item tests a specific grammatical or lexical point.
+- Maintain consistency with the specified CEFR level.
+${f.includeAnswerKey ? "- Include answer key." : ""}
+${f.includeExplanations ? "- Include short explanation per answer, focused on the grammar or vocabulary rule." : ""}
+
+Output Format:
+First the text with numbered gaps.
+Then list the options like this:
+${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} A ___   B ___   C ___`).join("\n")}`,
+      },
+      "3": {
+        title: "Type 3: Dialogues",
+        defaultQuestions: 5,
+        defaultWordCount: 140,
+        build: (f) => `Create a multiple-choice short conversation exercise similar to a Cambridge A1–A2 exam (Part 3 style).
+
+Specifications:
+- Topic / Context: ${f.topic || "[WRITE CONTEXT HERE]"}
+- Level (CEFR): ${f.level}
+- Functions focus: ${f.functions || "[e.g., offering help, responding to suggestions, greetings]"}
+- Vocabulary focus (optional): ${f.vocabulary || "[WRITE WORD LIST OR FIELD]"}
+- Number of questions: ${f.numQuestions} (${f.startNumber}-${f.startNumber + f.numQuestions - 1})
+
+Exercise Structure:
+1. Instructions
+- Write clear exam-style instructions in English.
+
+2. Conversations
+- Include ${f.numQuestions} short exchanges (1 prompt + 3 options).
+- Each question should test functional language, not just grammar.
+- Keep language natural and realistic.
+- Focus on everyday communication.
+
+3. Options
+- Provide 3 options (A, B, C) per question.
+- Only ONE correct answer.
+- Distractors must be grammatically correct but pragmatically incorrect.
+
+Quality Control Requirements:
+- Ensure NO ambiguity: only one logical response fits.
+- Ensure answers test communication function, not only grammar.
+- Distribute correct answers evenly; mix A, B, and C.
+- Avoid repetition patterns.
+- Use authentic conversational English.
+- Match CEFR level strictly.
+${f.includeAnswerKey ? "- Include answer key." : ""}
+${f.includeExplanations ? "- Include short explanation of why the response is correct in terms of communication function." : ""}
+
+Output Format:
+${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} [Prompt]\nA ___\nB ___\nC ___`).join("\n\n")}`,
+      },
+      "4": {
+        title: "Type 4: Reading Comprehension",
+        defaultQuestions: 7,
+        defaultWordCount: 180,
+        build: (f) => `Create a reading comprehension multiple-choice exercise similar to a Cambridge A1–A2 exam.
+
+Specifications:
+- Topic: ${f.topic || "[WRITE TOPIC HERE]"}
+- Level (CEFR): ${f.level}
+- Grammar focus (optional): ${f.grammar || "[e.g., past simple, present simple]"}
+- Vocabulary focus (optional): ${f.vocabulary || "[WRITE WORD LIST OR FIELD]"}
+- Number of questions: ${f.numQuestions} (${f.startNumber}-${f.startNumber + f.numQuestions - 1})
+
+Exercise Structure:
+1. Instructions
+- Write clear exam-style instructions in English.
+
+2. Reading Text
+- Write a coherent text of ${f.wordCount} words.
+- Use a slightly demanding but level-appropriate reading.
+- Include a clear structure: introduction, development, and closing.
+- Use a realistic context.
+
+3. Questions
+- Create ${f.numQuestions} multiple-choice questions with options A, B, and C.
+- Questions must test understanding, not copying.
+- Include paraphrasing.
+- Avoid direct repetition from the text.
+
+Question Types:
+- Mix these when possible: main idea, detail, basic inference, reference, vocabulary in context.
+
+Quality Control Requirements:
+- Ensure NO ambiguity: only one correct answer.
+- Distractors must be grammatically correct and contextually plausible, but clearly incorrect.
+- Distribute answers evenly; mix A, B, and C.
+- Avoid answers copied word-for-word from the text.
+- Ensure the exercise requires real reading comprehension, not guessing.
+- Maintain CEFR level while still being slightly demanding.
+${f.includeAnswerKey ? "- Include answer key." : ""}
+${f.includeExplanations ? "- Include short explanation per answer, mentioning the reading skill used." : ""}
+
+Output Format:
+First the reading text.
+Then:
+${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} [Question]\nA ___\nB ___\nC ___`).join("\n\n")}`,
+      }
+    };
+
+    let currentType = "1";
+
+    const elements = {
+      topic: document.getElementById('topic'),
+      level: document.getElementById('level'),
+      startNumber: document.getElementById('startNumber'),
+      numQuestions: document.getElementById('numQuestions'),
+      numNotices: document.getElementById('numNotices'),
+      wordCount: document.getElementById('wordCount'),
+      grammar: document.getElementById('grammar'),
+      functions: document.getElementById('functions'),
+      vocabulary: document.getElementById('vocabulary'),
+      includeAnswerKey: document.getElementById('includeAnswerKey'),
+      includeExplanations: document.getElementById('includeExplanations'),
+      output: document.getElementById('output'),
+      numNoticesWrap: document.getElementById('numNoticesWrap'),
+      wordCountWrap: document.getElementById('wordCountWrap'),
+      grammarWrap: document.getElementById('grammarWrap'),
+      functionsWrap: document.getElementById('functionsWrap')
+    };
+
+    function getNoticeRange(num) {
+      return `A-${String.fromCharCode(64 + num)}`;
+    }
+
+    function getFormData() {
+      return {
+        topic: elements.topic.value.trim(),
+        level: elements.level.value,
+        startNumber: Number(elements.startNumber.value) || 1,
+        numQuestions: Number(elements.numQuestions.value) || 1,
+        numNotices: Number(elements.numNotices.value) || 8,
+        wordCount: Number(elements.wordCount.value) || 140,
+        grammar: elements.grammar.value.trim(),
+        functions: elements.functions.value.trim(),
+        vocabulary: elements.vocabulary.value.trim(),
+        includeAnswerKey: elements.includeAnswerKey.checked,
+        includeExplanations: elements.includeExplanations.checked,
+        noticeRange: getNoticeRange(Number(elements.numNotices.value) || 8)
+      };
+    }
+
+    function updateVisibility() {
+      elements.numNoticesWrap.classList.toggle('hidden', currentType !== '1');
+      elements.wordCountWrap.classList.toggle('hidden', !['2','4'].includes(currentType));
+      elements.grammarWrap.classList.toggle('hidden', !['2','4'].includes(currentType));
+      elements.functionsWrap.classList.toggle('hidden', currentType !== '3');
+    }
+
+    function setDefaultsByType(type) {
+      currentType = type;
+      elements.numQuestions.value = examTypes[type].defaultQuestions;
+      if (type === '1') {
+        elements.numNotices.value = 8;
+      }
+      if (type === '2') {
+        elements.wordCount.value = elements.level.value === 'B1' ? 180 : 140;
+      }
+      if (type === '4') {
+        elements.wordCount.value = elements.level.value === 'A1' ? 140 : elements.level.value === 'A2' ? 180 : 240;
+      }
+      updateVisibility();
+      generatePrompt();
+    }
+
+    function generatePrompt() {
+      const form = getFormData();
+      elements.output.value = examTypes[currentType].build(form);
+    }
+
+    function resetForm() {
+      elements.topic.value = '';
+      elements.level.value = 'A1';
+      elements.startNumber.value = 1;
+      elements.grammar.value = '';
+      elements.functions.value = '';
+      elements.vocabulary.value = '';
+      elements.includeAnswerKey.checked = true;
+      elements.includeExplanations.checked = false;
+      setDefaultsByType(currentType);
+    }
+
+    document.querySelectorAll('.exam-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.exam-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        setDefaultsByType(btn.dataset.type);
+      });
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', generatePrompt);
+    document.getElementById('resetBtn').addEventListener('click', resetForm);
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(elements.output.value);
+        alert('Prompt copied.');
+      } catch (e) {
+        alert('Could not copy automatically. Please copy it manually.');
+      }
+    });
+
+    [
+      elements.topic, elements.level, elements.startNumber, elements.numQuestions,
+      elements.numNotices, elements.wordCount, elements.grammar, elements.functions,
+      elements.vocabulary, elements.includeAnswerKey, elements.includeExplanations
+    ].forEach(el => el.addEventListener('input', generatePrompt));
+
+    elements.level.addEventListener('change', () => {
+      if (currentType === '2') {
+        elements.wordCount.value = elements.level.value === 'B1' ? 180 : 140;
+      }
+      if (currentType === '4') {
+        elements.wordCount.value = elements.level.value === 'A1' ? 140 : elements.level.value === 'A2' ? 180 : 240;
+      }
+      generatePrompt();
+    });
+
+    updateVisibility();
+    generatePrompt();
+  </script>
+</body>
+<footer class="footer">
+By Omar Mogollón-Alaguna - 2026
+</footer>
+</html>
