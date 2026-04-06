@@ -323,10 +323,10 @@ ${f.includeExplanations ? "- Include short explanation for each answer." : ""}
 
 Output Format:
 Statements:
-${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} ___`).join("\n")}
+${Array.from({ length: f.numQuestions }, (_, i) => `${f.startNumber + i} . `).join("\n")}
 
 Notices:
-${Array.from({ length: f.numNotices }, (_, i) => `${String.fromCharCode(65 + i)} ___`).join("\n")}`,
+${Array.from({ length: f.numNotices }, (_, i) => `${String.fromCharCode(65 + i)} . `).join("\n")}`,
       },
       "2": {
         title: "Type 2: Cloze Reading",
